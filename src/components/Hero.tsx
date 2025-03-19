@@ -58,14 +58,14 @@ const Hero = () => {
   };
 
   return (
-    <section className="pt-28 pb-16 md:pt-32 md:pb-24">
+    <section className="pt-28 pb-16 md:pt-32 md:pb-24 bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white">
               Remove Image Backgrounds <span className="text-brand-500">Instantly</span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-lg">
+            <p className="text-xl text-gray-300 max-w-lg">
               AI-powered background removal in seconds. Perfect for e-commerce, 
               designers, and marketers. No design skills needed.
             </p>
@@ -74,22 +74,22 @@ const Hero = () => {
                 Try For Free
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button variant="outline" className="h-12 px-6 text-base">
+              <Button variant="outline" className="h-12 px-6 text-base border-gray-700 text-gray-300 hover:bg-secondary">
                 See How It Works
               </Button>
             </div>
             <div className="flex items-center gap-6 pt-4">
               <div className="flex items-center">
-                <Check className="text-green-500 mr-2 h-5 w-5" />
-                <span className="text-gray-600">100% Automated</span>
+                <Check className="text-brand-400 mr-2 h-5 w-5" />
+                <span className="text-gray-300">100% Automated</span>
               </div>
               <div className="flex items-center">
-                <Check className="text-green-500 mr-2 h-5 w-5" />
-                <span className="text-gray-600">HD Quality</span>
+                <Check className="text-brand-400 mr-2 h-5 w-5" />
+                <span className="text-gray-300">HD Quality</span>
               </div>
               <div className="flex items-center">
-                <Check className="text-green-500 mr-2 h-5 w-5" />
-                <span className="text-gray-600">Free Tier</span>
+                <Check className="text-brand-400 mr-2 h-5 w-5" />
+                <span className="text-gray-300">Free Tier</span>
               </div>
             </div>
           </div>
@@ -98,7 +98,7 @@ const Hero = () => {
             <div 
               className={cn(
                 "border-2 rounded-2xl overflow-hidden transition-all",
-                isDragging ? "border-brand-500 border-dashed bg-brand-50" : "border-gray-200",
+                isDragging ? "border-brand-500 border-dashed bg-secondary" : "border-gray-800",
                 (isProcessing || isProcessed) ? "min-h-[280px]" : "min-h-[320px]"
               )}
               onDragOver={handleDragOver}
@@ -106,17 +106,17 @@ const Hero = () => {
               onDrop={handleDrop}
             >
               {!uploadedImage && (
-                <div className="flex flex-col items-center justify-center h-full p-8">
+                <div className="flex flex-col items-center justify-center h-full p-8 bg-secondary">
                   <Upload className="h-12 w-12 text-gray-400 mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  <h3 className="text-lg font-medium text-gray-200 mb-2">
                     Drag & drop an image here
                   </h3>
-                  <p className="text-gray-500 text-center mb-4">
+                  <p className="text-gray-400 text-center mb-4">
                     or click to browse files (PNG, JPG)
                   </p>
                   <Button 
                     variant="outline" 
-                    className="relative"
+                    className="relative border-gray-700 text-gray-300 hover:bg-muted"
                     onClick={() => document.getElementById('file-upload')?.click()}
                   >
                     <input
@@ -132,10 +132,10 @@ const Hero = () => {
               )}
 
               {uploadedImage && (
-                <div className="w-full h-full">
+                <div className="w-full h-full bg-secondary">
                   {isProcessing && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white z-10">
-                      <div className="h-12 w-12 rounded-full border-4 border-white border-t-transparent animate-spin mb-4"></div>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-70 text-white z-10">
+                      <div className="h-12 w-12 rounded-full border-4 border-brand-500 border-t-transparent animate-spin mb-4"></div>
                       <p className="text-lg font-medium">Removing background...</p>
                     </div>
                   )}
@@ -143,14 +143,14 @@ const Hero = () => {
                   <div className="flex flex-col sm:flex-row h-full">
                     <div className="flex-1 p-3 flex items-center justify-center">
                       <img 
-                        src={uploadedImage} 
+                        src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
                         alt="Original" 
                         className="max-h-[260px] max-w-full object-contain rounded" 
                       />
                     </div>
                     
                     {isProcessed && (
-                      <div className="flex-1 p-3 flex flex-col items-center justify-center bg-[url('/placeholder.svg')] bg-contain">
+                      <div className="flex-1 p-3 flex flex-col items-center justify-center bg-[url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158')] bg-contain">
                         <img 
                           src={uploadedImage} 
                           alt="Processed" 
@@ -167,8 +167,8 @@ const Hero = () => {
             </div>
 
             {/* Decorative elements */}
-            <div className="hidden md:block absolute -bottom-6 -left-6 w-24 h-24 bg-brand-100 rounded-full filter blur-xl opacity-70 animate-pulse"></div>
-            <div className="hidden md:block absolute -top-6 -right-6 w-32 h-32 bg-blue-100 rounded-full filter blur-xl opacity-70 animate-blob"></div>
+            <div className="hidden md:block absolute -bottom-6 -left-6 w-24 h-24 bg-brand-900/50 rounded-full filter blur-xl opacity-70 animate-pulse"></div>
+            <div className="hidden md:block absolute -top-6 -right-6 w-32 h-32 bg-brand-800/30 rounded-full filter blur-xl opacity-70 animate-blob"></div>
           </div>
         </div>
       </div>

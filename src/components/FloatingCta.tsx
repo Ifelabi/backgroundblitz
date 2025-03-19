@@ -32,7 +32,7 @@ const FloatingCta = () => {
     <div className="fixed bottom-6 right-6 z-50 flex space-x-3">
       <Button
         onClick={scrollToTop}
-        className="w-12 h-12 rounded-full flex items-center justify-center bg-gray-200 hover:bg-gray-300 text-gray-700"
+        className="w-12 h-12 rounded-full flex items-center justify-center bg-secondary/80 hover:bg-secondary text-gray-300"
         aria-label="Scroll to top"
       >
         <ArrowUp className="h-5 w-5" />

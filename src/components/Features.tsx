@@ -10,23 +10,23 @@ interface FeatureCardProps {
 
 const FeatureCard = ({ icon, title, description }: FeatureCardProps) => (
   <div className="feature-card">
-    <div className="bg-brand-50 rounded-lg w-12 h-12 flex items-center justify-center mb-4">
+    <div className="bg-brand-900/50 rounded-lg w-12 h-12 flex items-center justify-center mb-4">
       {icon}
     </div>
-    <h3 className="text-xl font-semibold mb-2">{title}</h3>
-    <p className="text-gray-600">{description}</p>
+    <h3 className="text-xl font-semibold mb-2 text-white">{title}</h3>
+    <p className="text-gray-400">{description}</p>
   </div>
 );
 
 const Features = () => {
   return (
-    <section id="features" className="py-16 md:py-24 bg-gray-50">
+    <section id="features" className="py-16 md:py-24 bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
             Powerful Features for Perfect Results
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-300">
             Our AI-powered technology delivers exceptional results with minimal effort.
           </p>
         </div>

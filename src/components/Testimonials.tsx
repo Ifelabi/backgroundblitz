@@ -11,8 +11,8 @@ interface TestimonialProps {
 }
 
 const Testimonial = ({ quote, name, title, rating, avatarUrl }: TestimonialProps) => (
-  <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-    <div className="flex text-yellow-400 mb-4">
+  <div className="bg-secondary rounded-xl p-6 shadow-sm border border-gray-800">
+    <div className="flex text-brand-400 mb-4">
       {[...Array(5)].map((_, i) => (
         <Star
           key={i}
@@ -20,14 +20,14 @@ const Testimonial = ({ quote, name, title, rating, avatarUrl }: TestimonialProps
         />
       ))}
     </div>
-    <p className="text-gray-700 mb-4 italic">"{quote}"</p>
+    <p className="text-gray-300 mb-4 italic">"{quote}"</p>
     <div className="flex items-center">
       <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
         <img src={avatarUrl} alt={name} className="w-full h-full object-cover" />
       </div>
       <div>
-        <h4 className="font-semibold text-gray-900">{name}</h4>
-        <p className="text-gray-600 text-sm">{title}</p>
+        <h4 className="font-semibold text-white">{name}</h4>
+        <p className="text-gray-400 text-sm">{title}</p>
       </div>
     </div>
   </div>
@@ -40,21 +40,21 @@ const Testimonials = () => {
       name: "Sarah Johnson",
       title: "E-commerce Manager",
       rating: 5,
-      avatarUrl: "/placeholder.svg"
+      avatarUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150"
     },
     {
       quote: "The speed and accuracy are incredible. I can process dozens of images in minutes with perfect results.",
       name: "Michael Chen",
       title: "Professional Photographer",
       rating: 5,
-      avatarUrl: "/placeholder.svg"
+      avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150"
     },
     {
       quote: "As a designer, I use this tool daily. The API integration with our workflow has saved us countless hours.",
       name: "Alex Rivera",
       title: "Creative Director",
       rating: 4,
-      avatarUrl: "/placeholder.svg"
+      avatarUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150&h=150"
     }
   ];
 
@@ -62,10 +62,10 @@ const Testimonials = () => {
     <section className="py-16 md:py-24 gradient-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
             Trusted by Thousands of Professionals
           </h2>
-          <p className="text-xl text-gray-700">
+          <p className="text-xl text-gray-300">
             Don't just take our word for it. Here's what our customers say.
           </p>
         </div>
@@ -78,16 +78,16 @@ const Testimonials = () => {
         
         <div className="mt-16 flex flex-wrap justify-center gap-8 md:gap-16">
           <div className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-            <img src="/placeholder.svg" alt="Company Logo" className="h-10" />
+            <img src="https://uploads-ssl.webflow.com/63bb752e80ca590517d15c2c/63bb79e7715956238ab8b2c0_Logo_Amazon_270x157.png" alt="Company Logo" className="h-10" />
           </div>
           <div className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-            <img src="/placeholder.svg" alt="Company Logo" className="h-10" />
+            <img src="https://uploads-ssl.webflow.com/63bb752e80ca590517d15c2c/63bb79e7c8067bf1e07dd210_Logo_Shopify_270x157.png" alt="Company Logo" className="h-10" />
           </div>
           <div className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-            <img src="/placeholder.svg" alt="Company Logo" className="h-10" />
+            <img src="https://uploads-ssl.webflow.com/63bb752e80ca590517d15c2c/63bb79e7fb3e14c7736c3933_Logo_Etsy_270x157.png" alt="Company Logo" className="h-10" />
           </div>
           <div className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-            <img src="/placeholder.svg" alt="Company Logo" className="h-10" />
+            <img src="https://uploads-ssl.webflow.com/63bb752e80ca590517d15c2c/63bb79e73352523de63e6a12_Logo_Wix_270x157.png" alt="Company Logo" className="h-10" />
           </div>
         </div>
       </div>

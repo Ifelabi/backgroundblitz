@@ -19,7 +19,7 @@ const Cta = () => {
             Join thousands of satisfied customers who save time and improve their visuals with BackgroundBlitz.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-white text-brand-600 hover:bg-gray-100 h-12 px-6 text-base">
+            <Button className="bg-black text-white hover:bg-gray-900 h-12 px-6 text-base">
               Try For Free
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
