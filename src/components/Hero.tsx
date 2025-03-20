@@ -1,14 +1,20 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Upload, Check, ArrowRight } from "lucide-react";
+import { Upload, Check, ArrowRight, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
+import { loadImage, removeBackground } from "@/utils/backgroundRemoval";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const Hero = () => {
+  const { toast } = useToast();
   const [isDragging, setIsDragging] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [originalImage, setOriginalImage] = useState<string | null>(null);
+  const [processedImage, setProcessedImage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isProcessed, setIsProcessed] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -35,26 +41,74 @@ const Hero = () => {
     }
   };
 
-  const handleFiles = (file: File) => {
-    if (file.type.match('image.*')) {
+  const handleFiles = async (file: File) => {
+    if (!file.type.match('image.*')) {
+      toast({
+        variant: "destructive",
+        title: "Invalid file type",
+        description: "Please upload an image file (PNG, JPG)."
+      });
+      return;
+    }
+
+    try {
+      setError(null);
+      setIsProcessing(true);
+      setIsProcessed(false);
+      
+      // Display original image
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target?.result) {
-          setUploadedImage(e.target.result as string);
-          simulateProcessing();
+          setOriginalImage(e.target.result as string);
         }
       };
       reader.readAsDataURL(file);
+      
+      // Process the image
+      toast({
+        title: "Processing image",
+        description: "Please wait while we remove the background..."
+      });
+      
+      // Load image
+      const img = await loadImage(file);
+      
+      // Remove background
+      const processedBlob = await removeBackground(img);
+      
+      // Convert processed image to data URL
+      const processedDataUrl = URL.createObjectURL(processedBlob);
+      setProcessedImage(processedDataUrl);
+      setIsProcessed(true);
+      
+      toast({
+        variant: "default",
+        title: "Success!",
+        description: "Background removed successfully."
+      });
+    } catch (err) {
+      console.error("Error processing image:", err);
+      setError("Failed to process image. Please try again.");
+      toast({
+        variant: "destructive",
+        title: "Processing failed",
+        description: "There was an error removing the background. Please try again."
+      });
+    } finally {
+      setIsProcessing(false);
     }
   };
 
-  const simulateProcessing = () => {
-    setIsProcessing(true);
-    // Simulate processing time
-    setTimeout(() => {
-      setIsProcessing(false);
-      setIsProcessed(true);
-    }, 2000);
+  const handleDownload = () => {
+    if (processedImage) {
+      const link = document.createElement('a');
+      link.href = processedImage;
+      link.download = 'removed-background.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   return (
@@ -99,13 +153,13 @@ const Hero = () => {
               className={cn(
                 "border-2 rounded-2xl overflow-hidden transition-all",
                 isDragging ? "border-brand-500 border-dashed bg-secondary" : "border-gray-800",
-                (isProcessing || isProcessed) ? "min-h-[280px]" : "min-h-[320px]"
+                "min-h-[320px]"
               )}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
             >
-              {!uploadedImage && (
+              {!originalImage && (
                 <div className="flex flex-col items-center justify-center h-full p-8 bg-secondary">
                   <Upload className="h-12 w-12 text-gray-400 mb-4" />
                   <h3 className="text-lg font-medium text-gray-200 mb-2">
@@ -131,7 +185,7 @@ const Hero = () => {
                 </div>
               )}
 
-              {uploadedImage && (
+              {originalImage && (
                 <div className="w-full h-full bg-secondary">
                   {isProcessing && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-70 text-white z-10">
@@ -140,25 +194,60 @@ const Hero = () => {
                     </div>
                   )}
                   
+                  {error && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-70 text-white z-10">
+                      <p className="text-lg font-medium text-red-400 mb-4">{error}</p>
+                      <Button 
+                        variant="outline" 
+                        className="border-gray-700 text-gray-300 hover:bg-muted"
+                        onClick={() => {
+                          setOriginalImage(null);
+                          setProcessedImage(null);
+                          setError(null);
+                        }}
+                      >
+                        Try Again
+                      </Button>
+                    </div>
+                  )}
+                  
                   <div className="flex flex-col sm:flex-row h-full">
                     <div className="flex-1 p-3 flex items-center justify-center">
-                      <img 
-                        src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
-                        alt="Original" 
-                        className="max-h-[260px] max-w-full object-contain rounded" 
-                      />
+                      <div className="w-full">
+                        <p className="text-center text-sm text-gray-400 mb-2">Original</p>
+                        <AspectRatio ratio={1}>
+                          <img 
+                            src={originalImage} 
+                            alt="Original" 
+                            className="w-full h-full object-contain rounded" 
+                          />
+                        </AspectRatio>
+                      </div>
                     </div>
                     
-                    {isProcessed && (
-                      <div className="flex-1 p-3 flex flex-col items-center justify-center bg-[url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158')] bg-contain">
-                        <img 
-                          src={uploadedImage} 
-                          alt="Processed" 
-                          className="max-h-[260px] max-w-full object-contain rounded" 
-                        />
-                        <Button className="mt-4 bg-brand-500 hover:bg-brand-600">
-                          Download
-                        </Button>
+                    {isProcessed && processedImage && (
+                      <div className="flex-1 p-3 flex flex-col items-center justify-center">
+                        <div className="w-full">
+                          <p className="text-center text-sm text-gray-400 mb-2">Background Removed</p>
+                          <AspectRatio ratio={1}>
+                            <div className="checkered-background w-full h-full rounded overflow-hidden">
+                              <img 
+                                src={processedImage} 
+                                alt="Processed" 
+                                className="w-full h-full object-contain" 
+                              />
+                            </div>
+                          </AspectRatio>
+                          <div className="flex justify-center mt-4">
+                            <Button 
+                              onClick={handleDownload} 
+                              className="bg-brand-500 hover:bg-brand-600"
+                            >
+                              <Download className="mr-2 h-4 w-4" />
+                              Download
+                            </Button>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
