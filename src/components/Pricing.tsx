@@ -1,7 +1,7 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface PlanProps {
   name: string;
@@ -10,9 +10,10 @@ interface PlanProps {
   features: string[];
   isPopular?: boolean;
   buttonText: string;
+  buttonLink: string;
 }
 
-const PricingPlan = ({ name, price, description, features, isPopular, buttonText }: PlanProps) => (
+const PricingPlan = ({ name, price, description, features, isPopular, buttonText, buttonLink }: PlanProps) => (
   <div className={`
     rounded-xl p-8 bg-white shadow-sm border transition-transform duration-300 hover:shadow-md hover:-translate-y-1
     ${isPopular ? 'border-brand-500 shadow-md relative' : 'border-gray-200'}
@@ -38,11 +39,13 @@ const PricingPlan = ({ name, price, description, features, isPopular, buttonText
         </li>
       ))}
     </ul>
-    <Button 
-      className={`w-full ${isPopular ? 'bg-brand-500 hover:bg-brand-600' : 'bg-gray-800 hover:bg-gray-900'}`}
-    >
-      {buttonText}
-    </Button>
+    <Link to={buttonLink}>
+      <Button 
+        className={`w-full ${isPopular ? 'bg-brand-500 hover:bg-brand-600' : 'bg-gray-800 hover:bg-gray-900'}`}
+      >
+        {buttonText}
+      </Button>
+    </Link>
   </div>
 );
 
@@ -51,10 +54,10 @@ const Pricing = () => {
     <section id="pricing" className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-red-500 mb-4">
             Simple, Transparent Pricing
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-red-400">
             Choose the plan that works for your needs. No hidden fees.
           </p>
         </div>
@@ -71,6 +74,7 @@ const Pricing = () => {
               "Web-based access"
             ]}
             buttonText="Start Free"
+            buttonLink="/signup"
           />
           
           <PricingPlan
@@ -86,6 +90,7 @@ const Pricing = () => {
             ]}
             isPopular={true}
             buttonText="Get Pro"
+            buttonLink="/signup?plan=pro"
           />
           
           <PricingPlan
@@ -101,6 +106,7 @@ const Pricing = () => {
               "Dedicated support"
             ]}
             buttonText="Get Business"
+            buttonLink="/signup?plan=business"
           />
         </div>
         
@@ -112,8 +118,12 @@ const Pricing = () => {
             </p>
           </div>
           <div className="flex justify-center">
-            <Button variant="outline" className="mr-4">Contact Sales</Button>
-            <Button className="bg-brand-500 hover:bg-brand-600">Get a Quote</Button>
+            <Link to="/contact">
+              <Button variant="outline" className="mr-4">Contact Sales</Button>
+            </Link>
+            <Link to="/contact?type=quote">
+              <Button className="bg-brand-500 hover:bg-brand-600">Get a Quote</Button>
+            </Link>
           </div>
         </div>
       </div>

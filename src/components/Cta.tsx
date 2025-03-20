@@ -1,7 +1,7 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Cta = () => {
   return (
@@ -19,13 +19,17 @@ const Cta = () => {
             Join thousands of satisfied customers who save time and improve their visuals with BackgroundBlitz.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-black text-white hover:bg-gray-900 h-12 px-6 text-base">
-              Try For Free
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-brand-600 h-12 px-6 text-base">
-              See Plans
-            </Button>
+            <Link to="/pricing">
+              <Button className="bg-black text-white hover:bg-gray-900 h-12 px-6 text-base">
+                Try For Free
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to="/pricing">
+              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-brand-600 h-12 px-6 text-base">
+                See Plans
+              </Button>
+            </Link>
           </div>
           <p className="mt-6 text-white text-opacity-80">
             No credit card required. Cancel anytime.

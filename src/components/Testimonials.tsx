@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Star } from "lucide-react";
 
@@ -74,21 +73,6 @@ const Testimonials = () => {
           {testimonials.map((testimonial, index) => (
             <Testimonial key={index} {...testimonial} />
           ))}
-        </div>
-        
-        <div className="mt-16 flex flex-wrap justify-center gap-8 md:gap-16">
-          <div className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-            <img src="https://uploads-ssl.webflow.com/63bb752e80ca590517d15c2c/63bb79e7715956238ab8b2c0_Logo_Amazon_270x157.png" alt="Company Logo" className="h-10" />
-          </div>
-          <div className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-            <img src="https://uploads-ssl.webflow.com/63bb752e80ca590517d15c2c/63bb79e7c8067bf1e07dd210_Logo_Shopify_270x157.png" alt="Company Logo" className="h-10" />
-          </div>
-          <div className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-            <img src="https://uploads-ssl.webflow.com/63bb752e80ca590517d15c2c/63bb79e7fb3e14c7736c3933_Logo_Etsy_270x157.png" alt="Company Logo" className="h-10" />
-          </div>
-          <div className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-            <img src="https://uploads-ssl.webflow.com/63bb752e80ca590517d15c2c/63bb79e73352523de63e6a12_Logo_Wix_270x157.png" alt="Company Logo" className="h-10" />
-          </div>
         </div>
       </div>
     </section>

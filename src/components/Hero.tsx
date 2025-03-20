@@ -1,11 +1,11 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Upload, Check, ArrowRight, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import { loadImage, removeBackground } from "@/utils/backgroundRemoval";
+import backgroundRemover from '@/services/backgroundRemover';
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const { toast } = useToast();
@@ -41,43 +41,43 @@ const Hero = () => {
     }
   };
 
-  const handleFiles = async (file: File) => {
-    if (!file.type.match('image.*')) {
-      toast({
-        variant: "destructive",
-        title: "Invalid file type",
-        description: "Please upload an image file (PNG, JPG)."
-      });
-      return;
+  const validateImage = (file: File) => {
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    
+    if (!validTypes.includes(file.type)) {
+      throw new Error('Unsupported file type. Please upload JPG, PNG, or WEBP.');
     }
+    
+    if (file.size > maxSize) {
+      throw new Error('File size too large. Maximum size is 10MB.');
+    }
+  };
 
+  const handleFiles = async (file: File) => {
     try {
+      validateImage(file);
       setError(null);
       setIsProcessing(true);
       setIsProcessed(false);
       
       // Display original image
       const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target?.result) {
-          setOriginalImage(e.target.result as string);
-        }
-      };
-      reader.readAsDataURL(file);
-      
-      // Process the image
-      toast({
-        title: "Processing image",
-        description: "Please wait while we remove the background..."
+      const imageBase64 = await new Promise<string>((resolve, reject) => {
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
       });
+      setOriginalImage(imageBase64);
       
-      // Load image
-      const img = await loadImage(file);
+      // Process image
+      const processedBlob = await backgroundRemover(imageBase64);
       
-      // Remove background
-      const processedBlob = await removeBackground(img);
-      
-      // Convert processed image to data URL
+      // Validate processed image
+      if (!processedBlob) {
+        throw new Error('Processing failed. Please try again');
+      }
+
       const processedDataUrl = URL.createObjectURL(processedBlob);
       setProcessedImage(processedDataUrl);
       setIsProcessed(true);
@@ -85,15 +85,16 @@ const Hero = () => {
       toast({
         variant: "default",
         title: "Success!",
-        description: "Background removed successfully."
+        description: "Background removed successfully!",
+        duration: 3000
       });
-    } catch (err) {
-      console.error("Error processing image:", err);
-      setError("Failed to process image. Please try again.");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred');
       toast({
         variant: "destructive",
-        title: "Processing failed",
-        description: "There was an error removing the background. Please try again."
+        title: "Error",
+        description: error instanceof Error ? error.message : 'An unexpected error occurred',
+        duration: 3000
       });
     } finally {
       setIsProcessing(false);
@@ -124,13 +125,17 @@ const Hero = () => {
               designers, and marketers. No design skills needed.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
-              <Button className="bg-brand-500 hover:bg-brand-600 h-12 px-6 text-base">
-                Try For Free
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button variant="outline" className="h-12 px-6 text-base border-gray-700 text-gray-300 hover:bg-secondary">
-                See How It Works
-              </Button>
+              <Link to="/pricing">
+                <Button className="bg-brand-500 hover:bg-brand-600 h-12 px-6 text-base">
+                  Try For Free
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link to="/how-it-works">
+                <Button variant="outline" className="h-12 px-6 text-base border-gray-700 text-gray-300 hover:bg-secondary">
+                  See How It Works
+                </Button>
+              </Link>
             </div>
             <div className="flex items-center gap-6 pt-4">
               <div className="flex items-center">
@@ -161,27 +166,47 @@ const Hero = () => {
             >
               {!originalImage && (
                 <div className="flex flex-col items-center justify-center h-full p-8 bg-secondary">
-                  <Upload className="h-12 w-12 text-gray-400 mb-4" />
-                  <h3 className="text-lg font-medium text-gray-200 mb-2">
-                    Drag & drop an image here
-                  </h3>
-                  <p className="text-gray-400 text-center mb-4">
-                    or click to browse files (PNG, JPG)
-                  </p>
-                  <Button 
-                    variant="outline" 
-                    className="relative border-gray-700 text-gray-300 hover:bg-muted"
-                    onClick={() => document.getElementById('file-upload')?.click()}
-                  >
-                    <input
-                      id="file-upload"
-                      type="file"
-                      className="sr-only"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                    />
-                    Select Image
-                  </Button>
+                  <div className="w-full max-w-sm mx-auto mb-6">
+                    <div className="relative border-2 border-dashed border-gray-600 rounded-lg aspect-[4/3] overflow-hidden group hover:border-brand-500 transition-colors">
+                      <div className="absolute inset-0 bg-gray-800/50 flex flex-col items-center justify-center p-6">
+                        <div className="w-16 h-16 mb-4 rounded-full bg-gray-700/50 flex items-center justify-center">
+                          <Upload className="h-8 w-8 text-gray-400" />
+                        </div>
+                        <h3 className="text-lg font-medium text-gray-200 mb-2 text-center">
+                          Drag & drop an image here
+                        </h3>
+                        <p className="text-gray-400 text-center text-sm mb-4">
+                          or click to browse files
+                        </p>
+                        <p className="text-gray-500 text-xs text-center">
+                          Supported formats: PNG, JPG
+                        </p>
+                      </div>
+                      <input
+                        id="file-upload"
+                        type="file"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Video Preview */}
+                  <div className="w-full max-w-sm mx-auto mt-6 bg-gray-800/50 rounded-lg p-4">
+                    <div className="aspect-[4/3] rounded-lg overflow-hidden">
+                      <video 
+                        className="w-full h-full object-cover"
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                      >
+                        <source src="/individuals1.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  </div>
                 </div>
               )}
 

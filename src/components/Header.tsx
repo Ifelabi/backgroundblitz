@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -18,13 +17,21 @@ const Header = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6">
           <Link to="/features" className="text-gray-300 hover:text-brand-300 transition-colors">Features</Link>
           <Link to="/how-it-works" className="text-gray-300 hover:text-brand-300 transition-colors">How It Works</Link>
           <Link to="/use-cases" className="text-gray-300 hover:text-brand-300 transition-colors">Use Cases</Link>
           <Link to="/pricing" className="text-gray-300 hover:text-brand-300 transition-colors">Pricing</Link>
-          <div className="pl-4">
-            <Button className="bg-brand-500 hover:bg-brand-600">Try For Free</Button>
+          <div className="flex items-center space-x-4 pl-4">
+            <Link to="/login">
+              <Button variant="ghost" className="text-gray-300 hover:text-brand-300">Login</Button>
+            </Link>
+            <Link to="/signup">
+              <Button variant="outline" className="border-brand-500 text-brand-500 hover:bg-brand-500 hover:text-white">Sign Up</Button>
+            </Link>
+            <Link to="/pricing">
+              <Button className="bg-brand-500 hover:bg-brand-600">Try For Free</Button>
+            </Link>
           </div>
         </nav>
 
@@ -69,7 +76,17 @@ const Header = () => {
             >
               Pricing
             </Link>
-            <Button className="bg-brand-500 hover:bg-brand-600 w-full">Try For Free</Button>
+            <div className="space-y-2 px-4">
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="text-gray-300 hover:text-brand-300 w-full">Login</Button>
+              </Link>
+              <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="outline" className="border-brand-500 text-brand-500 hover:bg-brand-500 hover:text-white w-full">Sign Up</Button>
+              </Link>
+              <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>
+                <Button className="bg-brand-500 hover:bg-brand-600 w-full">Try For Free</Button>
+              </Link>
+            </div>
           </nav>
         </div>
       )}

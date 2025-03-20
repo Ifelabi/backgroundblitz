@@ -1,4 +1,3 @@
-
 import React from "react";
 import { ShoppingBag, PenTool, ImagePlus, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,17 +6,31 @@ interface UseCaseCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  imageUrl: string;
+  imageUrl?: string;
+  videoUrl?: string;
 }
 
-const UseCaseCard = ({ icon, title, description, imageUrl }: UseCaseCardProps) => (
+const UseCaseCard = ({ icon, title, description, imageUrl, videoUrl }: UseCaseCardProps) => (
   <div className="group rounded-xl overflow-hidden bg-secondary border border-gray-800 shadow hover:shadow-lg transition-all">
     <div className="h-48 overflow-hidden">
-      <img 
-        src={imageUrl} 
-        alt={title} 
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-      />
+      {videoUrl ? (
+        <video
+          className="w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src={videoUrl} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      ) : (
+        <img 
+          src={imageUrl} 
+          alt={title} 
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+        />
+      )}
     </div>
     <div className="p-6">
       <div className="flex items-center gap-3 mb-3">
@@ -26,10 +39,7 @@ const UseCaseCard = ({ icon, title, description, imageUrl }: UseCaseCardProps) =
         </div>
         <h3 className="text-xl font-semibold text-white">{title}</h3>
       </div>
-      <p className="text-gray-400 mb-4">{description}</p>
-      <Button variant="link" className="text-brand-400 p-0 hover:text-brand-300">
-        Learn more &rarr;
-      </Button>
+      <p className="text-gray-400">{description}</p>
     </div>
   </div>
 );
@@ -51,26 +61,26 @@ const UseCases = () => {
           <UseCaseCard
             icon={<ShoppingBag className="h-5 w-5 text-brand-500" />}
             title="E-commerce"
-            description="Create clean, professional product photos with transparent backgrounds."
-            imageUrl="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+            description="Increase Conversion Rates. By harmonizing images across your entire store, you remove distractions. This means customers will focus on your products and nothing else. It's a simple improvement that allows customers to select items and place orders easier and more often. Along with increasing sales, remove.bg's clean backgrounds improve customers' trust, help them compare products, increase image capturing efficiency, and reduce data preparation costs."
+            videoUrl="/developers.mp4"
           />
           <UseCaseCard
             icon={<PenTool className="h-5 w-5 text-brand-500" />}
             title="Designers"
-            description="Quickly extract elements for mockups, designs, and creative projects."
-            imageUrl="https://images.unsplash.com/photo-1461749280684-dccba630e2f6"
+            description="Images are a feature of nearly all apps, enhancing UX and improving user-generated content. Once, you had to be an expert in visual computing and artificial intelligence - developing and maintaining a completely different technology stack - just to remove the background from an image. Well, not any more. We've packed it all into one line of code for any image."
+            imageUrl="/design.png"
           />
           <UseCaseCard
             icon={<ImagePlus className="h-5 w-5 text-brand-500" />}
             title="Marketers"
-            description="Create eye-catching content for social media, ads, and websites."
-            imageUrl="https://images.unsplash.com/photo-1518770660439-4636190af475"
+            description="Creating engaging and interactive experiences for your audience is key to successful brand campaigns and headline stories. With remove.bg, you can create and share stunning, eye-catching images with ease. Not only does remove.bg enhance customer interaction, but it also drastically speeds up the image editing process. Manually cutting out an image can take anywhere from a minute to twenty, depending on complexity. With remove.bg, you'll be done in just 5 seconds, thanks to its fully automated AI. You can focus on other tasks while our AI swiftly removes your image backgrounds, making your workflow more efficient than ever."
+            videoUrl="/media-3.mp4"
           />
           <UseCaseCard
             icon={<Camera className="h-5 w-5 text-brand-500" />}
             title="Photographers"
-            description="Enhance portrait and product photos with clean backgrounds."
-            imageUrl="https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
+            description="With BackgroundBlitz, there's no need for chroma-keying environments under those perfectly tuned lighting conditions. Just shoot where you are: in front of a white wall, on a busy crossroad or with the pitch-black night sky in the background. You can leave your green screen at home! But if you really need a screen, removing chroma-keying backgrounds works too, green or not."
+            imageUrl="/photo.png"
           />
         </div>
       </div>

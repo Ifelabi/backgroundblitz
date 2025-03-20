@@ -1,9 +1,18 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Preload critical font -->
+    <link
+      rel="preload"
+      href="https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <title>BackgroundBlitz - AI-Powered Background Removal Tool</title>
     <meta name="description" content="Remove image backgrounds instantly with our AI-powered tool. Perfect for e-commerce, designers, and marketers. Try for free today!" />
     <meta name="author" content="BackgroundBlitz" />
@@ -20,8 +29,6 @@
 
   <body>
     <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

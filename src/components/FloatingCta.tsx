@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowUp } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const FloatingCta = () => {
   const [visible, setVisible] = useState(false);
@@ -38,9 +38,11 @@ const FloatingCta = () => {
         <ArrowUp className="h-5 w-5" />
       </Button>
 
-      <Button className="bg-brand-500 hover:bg-brand-600 shadow-lg hover:shadow-xl transition-all animate-scale-in">
-        Try For Free
-      </Button>
+      <Link to="/pricing">
+        <Button className="bg-brand-500 hover:bg-brand-600 shadow-lg hover:shadow-xl transition-all animate-scale-in">
+          Try For Free
+        </Button>
+      </Link>
     </div>
   );
 };

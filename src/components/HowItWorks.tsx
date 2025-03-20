@@ -1,4 +1,3 @@
-
 import React from "react";
 import { UploadCloud, Cpu, Download } from "lucide-react";
 
@@ -35,12 +34,13 @@ const HowItWorks = () => {
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
             How BackgroundBlitz Works
           </h2>
-          <p className="text-xl text-gray-300">
+          <p className="text-xl text-gray-300 mb-12">
             Remove backgrounds in three simple steps.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 relative">
+        {/* Steps Section */}
+        <div className="grid md:grid-cols-3 gap-8 relative mb-16">
           {/* Connection line for desktop */}
           <div className="hidden md:block absolute top-8 left-[25%] right-[25%] h-1 bg-gray-800 z-0"></div>
           
@@ -48,32 +48,37 @@ const HowItWorks = () => {
             number={1}
             icon={<UploadCloud className="h-8 w-8 text-white" />}
             title="Upload Your Image"
-            description="Drag and drop your image or select from your computer, cloud, or URL."
+            description="Upload any image you want to remove the background from. Supports JPG, PNG and WEBP formats."
           />
           
           <StepCard
             number={2}
             icon={<Cpu className="h-8 w-8 text-white" />}
             title="AI Processing"
-            description="Our AI instantly analyzes and removes the background with precision."
+            description="Our advanced AI automatically detects and removes the background in seconds."
           />
           
           <StepCard
             number={3}
             icon={<Download className="h-8 w-8 text-white" />}
             title="Download Result"
-            description="Get your image with transparent background in PNG format or add a custom background."
+            description="Download your image with the background removed in your preferred format."
           />
         </div>
-        
-        <div className="mt-16 md:mt-24 text-center">
-          <div className="inline-block rounded-lg overflow-hidden border border-gray-800 shadow-lg max-w-2xl mx-auto">
-            <img 
-              src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
-              alt="How it works demonstration"
-              className="w-full h-auto"
-            />
-          </div>
+
+        {/* Video Demo */}
+        <div className="relative w-full max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl">
+          <video 
+            className="w-full h-auto"
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            controls={false}
+          >
+            <source src="/v2a-compressed.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     </section>
